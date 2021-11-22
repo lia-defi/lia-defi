@@ -53,7 +53,7 @@ class Scraper():
         return result
 
     def Institutional_Holding(self):
-        r = pd.read_csv('Institutional Holding.csv)
+        r = pd.read_csv('Institutional Holding.csv')
         result = r.to_dict()
             return result
 
