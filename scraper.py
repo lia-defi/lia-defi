@@ -57,7 +57,7 @@ class Scraper():
         s = HTMLSession()
         days_url = []
         url = f'https://www.sec.gov/cgi-bin/current?q1=0&q2=0&q3=13F'
-        time.sleep(10)
+        time.sleep(1)
         page = s.get(url) #,headers=headers)
         data = page.text
         soup = BeautifulSoup(data,'lxml')
