@@ -53,48 +53,8 @@ class Scraper():
         return result
 
     def Institutional_Holding(self):
-        headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'}
-        s = HTMLSession()
-        days_url = []
-        url = f'https://www.sec.gov/cgi-bin/current?q1=0&q2=0&q3=13F'
-        time.sleep(1)
-        page = s.get(url) #,headers=headers)
-        data = page.text
-        soup = BeautifulSoup(data,'lxml')
-        #now let's check if the word index is contained in the link
-        for link in soup.find_all('a'):
-            if 'index' in link.get('href'):
-                url_to_save = link.get('href')
-                days_url.append(url_to_save)
-        #we want the information table from the link
-        #item will be the archive etc...
-        days_url = days_url[0:2]
-        for item in days_url:
-            time.sleep(1)
-            index = f'https://www.sec.gov' + item
-            index = s.get(index,headers=headers)
-            index = pd.read_html(index.text)
-            index = index[0]
-            index = index[(index['Document'].str.contains('html'))&(index['Type'].str.contains('INFORMATION TABLE'))]
-            index = index['Document'].iloc[0]
-            url = item.replace('index.html','')
-            url = url.replace('-','')
-            url = f'https://www.sec.gov' + url + '/xslForm13F_X01/' + index
-            url = url.replace('html','xml')
-            cik_company = item.split('data/')[1].split('/')[0]
-            time.sleep(3)
-            url = s.get(url,headers=headers)
-            DF_13F = pd.read_html(url.text)
-            DF_13F = DF_13F[-1]
-            DF_13F = DF_13F.iloc[2:]
-            new_header = DF_13F.iloc[0]
-            DF_13F.columns = new_header
-            DF_13F['date_reported'] = datetime.now().strftime("%Y%m")
-            DF_13F['cik_company'] = cik_company
-            value_to_store_as_index = cik_company + DF_13F['CUSIP'] + datetime.now().strftime("%Y%m")
-            DF_13F['indice'] = value_to_store_as_index
-            DF_13F = DF_13F[['indice','NAME OF ISSUER','TITLE OF CLASS','CUSIP','(x$1000)','PRN AMT','PRN','date_reported','cik_company']]
-            result = DF_13F.to_dict()
+        r = pd.read_csv('Institutional Holding.csv)
+        result = r.to_dict()
             return result
 
     def get_cik_from_symbol(self,symbol):
