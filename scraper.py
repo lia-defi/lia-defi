@@ -55,7 +55,7 @@ class Scraper():
     def Institutional_Holding(self):
         r = pd.read_csv('Institutional Holding.csv')
         result = r.to_dict()
-            return result
+        return result
 
     def get_cik_from_symbol(self,symbol):
         url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
@@ -592,43 +592,4 @@ def crude_oil_production_usa():
 #button = class='x0o17e-0 DChGS'
 
 
-'''''
-selectedcompany = 'TYSON FOODS, INC.'
-selectedreport = '10-Q'
-csv = pd.read_csv('edgarfills.txt',sep='\t',lineterminator='\n',names=None)
-csv.columns.values[0] = 'Item'
-companyreport = csv[(csv['Item'].str.contains(selectedcompany))&(csv['Item'].str.contains(selectedreport))]
-Filing = companyreport['Item'].str.split('|')
-Filing = Filing.to_list()
 
-for item in Filing[0]:
-    if 'txt' in item:
-        report = item
-        report = report.replace(".txt","-index.html")
-report = str.strip(report)
-url = 'https://www.sec.gov/Archives/' + report
-url = s.get(url, headers=headers)
-
-df = pd.read_html(url.content)
-document_index = df[0]
-document_index = document_index.dropna()
-document_name = document_index[document_index['Description'].str.contains(selectedreport)]
-document_name = document_name['Document'].str.split(' ')
-document_name = document_name[0][0]
-report_formatted = report.replace('-','').replace('index.html','')
-url = 'https://www.sec.gov/Archives/' + report_formatted + '/' + document_name
-url = s.get(url,headers=headers)
-df = pd.read_html(url.content)
-
-
-df1 = dict((key, val) for k in df for key, val in k.items())
-df2 = dict(df[0])
-df3 = pd.DataFrame.from_records(df)
-
-
-for item in df1:
-    BS = (item.str.contains('Inventories') | item.str.contains('Total Assets'))
-    if BS.any():
-        Balance_Sheet = item
-        print(Balance_Sheet)
-'''
