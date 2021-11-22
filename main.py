@@ -29,7 +29,7 @@ async def read_cat(cat: str = Path(None,description='Insert the CIK of the compa
     return quotes.insider_information(cat)
     raise HTTPException(status_code=404, description="Control the CIK")
 
-@app.get("/istitutionalholding")
+@app.get("/institutionalholding")
 async def read_cat():
     return quotes.Institutional_Holding()
     raise HTTPException(status_code=404, description="Rate limit exceeded")
