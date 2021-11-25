@@ -552,44 +552,15 @@ class Scraper():
         return df 
 
 
+    def get_crypto_price(self,crypto,start_date,end_date):
+        url = f"https://www.coingecko.com/en/coins/{crypto}/historical_data/usd?end_date={end_date}&start_date={start_date}#panel"
 
+        r = requests.get(url)
+        soup = BeautifulSoup(r.text,'html.parser')
+        df = pd.read_html(r.text)
+        #j = pd.DataFrame(df[0],columns=['Date','Market Cap','Volume','Open','Close'])
 
-
-
-
-
-
-
-
-
-s = HTMLSession()
-headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
-
-
-def crude_oil_production_usa():
-    url = f'https://www.eia.gov/dnav/pet/pet_crd_crpdn_adc_mbbl_m.htm'
-
-    session=requests.Session()
-    session.headers.update(
-            {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36'})    
-    response=session.get(url)
-
-            #regex to find the data
-    soup = BeautifulSoup(response.text,'lxml')
-
-            #convert text to dict via json
-    table = soup.find_all('table')
-    row_data = []
-    for row in table.find_all('tr'):
-        col = row.find_all('td')
-        col = [el.text.strip() for el in col]
-        row_data.append(col)
-    df = pd.DataFrame(row_data)
-    #df = df.to_dict()
-    return df 
-
-
-#button = class='x0o17e-0 DChGS'
-
+        j = dict(df[0])
+        return j
 
 
