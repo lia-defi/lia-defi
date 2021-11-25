@@ -569,3 +569,17 @@ class Scraper():
         j = dict(df)
         return j
 
+    def coins_by_market_cap(self):
+        url = r"https://www.coingecko.com/en/categories/decentralized-finance-defi"
+        r = requests.get(url)
+        soup = BeautifulSoup(r.text,'lxml')
+        doc_table = soup.find('table',class_='sort table mb-0 text-sm text-lg-normal table-scrollable')
+        row_data = []
+        for row in doc_table.find_all('tr'):
+            cols = row.find_all('td')
+            cols = [element.text.strip() for element in cols]
+            row_data.append(cols)
+        df = pd.DataFrame(row_data,columns=['a','b','Coin','Price','1h','24h','7d','24h Volume','Market Capitalization','Fully Diluted Mkt. Cap','Mkt.Cap/TVL Ratio'])
+        df = df.drop(['a','b'],axis=1)
+        j = dict(df)
+        return j 
