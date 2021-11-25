@@ -151,4 +151,8 @@ start: str = Path(None,description='insert start date'), end: str = Path(None,de
     return quotes.get_crypto_price(crypto,start,end)
     raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
 
+@app.get("/coins_by_marketcap")
+async def read(q: Optional[str]=Query(None,description='Crypto ranking by market cap')):
+    return quotes.coins_by_market_cap()
+    raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
 
