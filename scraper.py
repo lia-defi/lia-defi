@@ -557,10 +557,15 @@ class Scraper():
 
         r = requests.get(url)
         soup = BeautifulSoup(r.text,'html.parser')
-        df = pd.read_html(r.text)
-        #j = pd.DataFrame(df[0],columns=['Date','Market Cap','Volume','Open','Close'])
+        doc_table = soup.find('table',class_='table table-striped text-sm text-lg-normal')
+        row_data = []
+        for row in doc_table.find_all('tr'):
+            cols = row.find_all('td')
+            cols = [element.text.strip() for element in cols]
+            row_data.append(cols)
 
-        j = dict(df[0])
+        df = pd.DataFrame(row_data,columns=['Market Cap','Volume','Open','Close'])
+
+        j = dict(df)
         return j
-
 
