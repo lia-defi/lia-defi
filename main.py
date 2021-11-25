@@ -145,4 +145,10 @@ async def read(q: Optional[str]=Query(None,description='International tourism re
     raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
 
 
+@app.get("/get_crypto_price/{crypto}/{start}/{end}")
+async def read(crypto: str = Path(None,description='insert the name of the crypto in lower case'),
+start: str = Path(None,description='insert start date'), end: str = Path(None,description='insert end date')):
+    return quotes.get_crypto_price(crypto,start,end)
+    raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
+
 
