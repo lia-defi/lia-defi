@@ -583,3 +583,39 @@ class Scraper():
         df = df.drop(['a','b'],axis=1)
         j = dict(df)
         return j 
+    
+        def covid_cases(self):
+        headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
+        url = f'https://www.worldometers.info/coronavirus/'
+        r = requests.get(url,headers=headers)
+        soup = BeautifulSoup(r.text,'lxml')
+        doc_table = soup.find('table',id='main_table_countries_today')
+        row_data = []
+        for row in doc_table.find_all('tr'):
+            cols = row.find_all('td')
+            cols = [element.text.strip() for element in cols]
+            row_data.append(cols)
+        df = pd.DataFrame(row_data)
+        #drop columns and rows
+        df = df.drop([0,1,2,3,4,5,6,7,233,234,235,236,237,238,239,240])
+        df = df.drop(columns=[15,16,17,18,19,20,21])
+        df = df.rename(columns={
+            1:"Country",
+            2:"Total Cases",
+            3:"New Cases",
+            4:"Total Deaths",
+            5:"Total Recovered",
+            6:"New Recovered",
+            7:"Active Cases",
+            8:"Serious Critical",
+            9:"Tot Cases/1M pop",
+            10:"Deaths/1M pop",
+            11:"Total Tests",
+            12:"Tests/1M pop",
+            13:"Population"})
+        df = df.set_index(['Country'])
+        df = df.fillna(0)
+        df = df.replace("",0)
+        df = df.drop(columns=[0])
+        j = dict(df)
+        return j
