@@ -156,3 +156,7 @@ async def read(q: Optional[str]=Query(None,description='Crypto ranking by market
     return quotes.coins_by_market_cap()
     raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
 
+@app.get("/covid_cases")
+async def read(q: Optional[str]=Query(None,description='International Covid Cases')):
+    return quotes.covid_cases()
+    raise HTTPException(status_code=404,description='You exceeded your rate limit, upgrade your plan or contact us')
