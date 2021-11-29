@@ -584,7 +584,7 @@ class Scraper():
         j = dict(df)
         return j 
     
-        def covid_cases(self):
+    def covid_cases(self):
         headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36'}
         url = f'https://www.worldometers.info/coronavirus/'
         r = requests.get(url,headers=headers)
